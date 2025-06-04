@@ -1,0 +1,152 @@
+CREATE TABLE Restaurant (
+    restaurantId NUMBER PRIMARY KEY,
+    restaurantName VARCHAR2(30),
+    city VARCHAR2(30),
+    email VARCHAR2(30),
+    mobile VARCHAR2(15),
+    rating NUMBER(9,2)
+);
+CREATE OR REPLACE PROCEDURE AddRestaurant (
+    p_id IN NUMBER,
+    p_name IN VARCHAR2,
+    p_city IN VARCHAR2,
+    p_email IN VARCHAR2,
+    p_mobile IN VARCHAR2,
+    p_rating IN NUMBER
+) AS
+BEGIN
+    INSERT INTO Restaurant VALUES (p_id, p_name, p_city, p_email, p_mobile, p_rating);
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE SearchByRestaurantId (
+    p_id IN NUMBER
+) AS
+    v_restaurant Restaurant%ROWTYPE;
+BEGIN
+    SELECT * INTO v_restaurant
+    FROM Restaurant
+    WHERE restaurantId = p_id;
+
+    DBMS_OUTPUT.PUT_LINE('ID: ' || v_restaurant.restaurantId);
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_restaurant.restaurantName);
+    DBMS_OUTPUT.PUT_LINE('City: ' || v_restaurant.city);
+    DBMS_OUTPUT.PUT_LINE('Email: ' || v_restaurant.email);
+    DBMS_OUTPUT.PUT_LINE('Mobile: ' || v_restaurant.mobile);
+    DBMS_OUTPUT.PUT_LINE('Rating: ' || v_restaurant.rating);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Restaurant not found.');
+END;
+/
+
+CREATE OR REPLACE PROCEDURE UpdateRestaurant (
+    p_id IN NUMBER,
+    p_name IN VARCHAR2,
+    p_city IN VARCHAR2,
+    p_email IN VARCHAR2,
+    p_mobile IN VARCHAR2,
+    p_rating IN NUMBER
+) AS
+BEGIN
+    UPDATE Restaurant
+    SET restaurantName = p_name,
+        city = p_city,
+        email = p_email,
+        mobile = p_mobile,
+        rating = p_rating
+    WHERE restaurantId = p_id;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE DeleteRestaurantById (
+    p_id IN NUMBER
+) AS
+BEGIN
+    DELETE FROM Restaurant WHERE restaurantId = p_id;
+END;
+/
+
+DECLARE
+    CURSOR cur_restaurant IS SELECT * FROM Restaurant;
+    v_rec cur_restaurant%ROWTYPE;
+BEGIN
+    OPEN cur_restaurant;
+    LOOP
+        FETCH cur_restaurant INTO v_rec;
+        EXIT WHEN cur_restaurant%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_rec.restaurantId || ', Name: ' || v_rec.restaurantName || ', City: ' || v_rec.city || ', Rating: ' || v_rec.rating);
+    END LOOP;
+    CLOSE cur_restaurant;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE searchRestaurantById (
+    p_id IN NUMBER,
+    p_name OUT VARCHAR2,
+    p_city OUT VARCHAR2,
+    p_email OUT VARCHAR2,
+    p_mobile OUT VARCHAR2,
+    p_rating OUT NUMBER
+) AS
+BEGIN
+    SELECT restaurantName, city, email, mobile, rating
+    INTO p_name, p_city, p_email, p_mobile, p_rating
+    FROM Restaurant
+    WHERE restaurantId = p_id;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        p_name := NULL;
+        p_city := NULL;
+        p_email := NULL;
+        p_mobile := NULL;
+        p_rating := NULL;
+END;
+/
+
+CREATE TABLE RestaurantBackup (
+    RbId NUMBER PRIMARY KEY,
+    restaurantId NUMBER,
+    restaurantName VARCHAR2(30),
+    city VARCHAR2(30),
+    email VARCHAR2(30),
+    mobile VARCHAR2(15),
+    rating NUMBER(9,2),
+    operation VARCHAR2(30),
+    activityOn DATE DEFAULT SYSDATE
+);
+
+CREATE OR REPLACE TRIGGER trg_insert_restaurant
+AFTER INSERT ON Restaurant
+FOR EACH ROW
+BEGIN
+    INSERT INTO RestaurantBackup
+    VALUES (RestaurantBackup_seq.NEXTVAL, :NEW.restaurantId, :NEW.restaurantName,
+            :NEW.city, :NEW.email, :NEW.mobile, :NEW.rating, 'INSERT', SYSDATE);
+END;
+/
+
+
+CREATE OR REPLACE TRIGGER trg_update_restaurant
+BEFORE UPDATE ON Restaurant
+FOR EACH ROW
+BEGIN
+    INSERT INTO RestaurantBackup
+    VALUES (RestaurantBackup_seq.NEXTVAL, :OLD.restaurantId, :OLD.restaurantName,
+            :OLD.city, :OLD.email, :OLD.mobile, :OLD.rating, 'UPDATE', SYSDATE);
+END;
+/
+
+
+CREATE OR REPLACE TRIGGER trg_delete_restaurant
+BEFORE DELETE ON Restaurant
+FOR EACH ROW
+BEGIN
+    INSERT INTO RestaurantBackup
+    VALUES (RestaurantBackup_seq.NEXTVAL, :OLD.restaurantId, :OLD.restaurantName,
+            :OLD.city, :OLD.email, :OLD.mobile, :OLD.rating, 'DELETE', SYSDATE);
+END;
+/
+
+CREATE SEQUENCE RestaurantBackup_seq START WITH 1 INCREMENT BY 1;
