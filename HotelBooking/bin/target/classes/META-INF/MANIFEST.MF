@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: kavin
+Build-Jdk: 21.0.7
+Implementation-Title: SpringSecurityNewEx2
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.example.demo
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/SpringSecurityNewEx2
+Created-By: Maven Integration for Eclipse
+
