@@ -1,0 +1,99 @@
+.background {
+  background-image: url('https://i.pinimg.com/736x/4f/94/8b/4f948b0441e43625ae8dc381d0d70800.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  padding-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0 20px;
+}
+
+
+.home-card {
+  width: 500px;
+  padding: 20px;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.8s ease;
+}
+
+/* Toolbar styling */
+.home-toolbar {
+  justify-content: center;
+  font-weight: bold;
+  font-size: 22px;
+  padding: 16px 0;
+  color: #fff;
+  background: linear-gradient(to right, #6a11cb, #2575fc) !important;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Content inside card */
+.home-content {
+  text-align: center;
+  padding: 25px 15px;
+}
+
+.home-content h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.home-content p {
+  font-size: 16px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Logged-out styling */
+.logged-out-message {
+  text-align: center;
+  margin-top: 120px;
+}
+
+.logged-out-message mat-card {
+  display: inline-block;
+  padding: 25px 30px;
+  font-size: 18px;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.6s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,101 @@
+/* === Container and Card === */
+.container {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+mat-card {
+  padding: 20px;
+  border-radius: 16px;
+  background-color: #ffffff;
+}
+
+/* === Toolbar === */
+mat-toolbar {
+  font-size: 24px;
+  font-weight: 600;
+  justify-content: center;
+}
+
+/* === Form Fields === */
+mat-form-field {
+  width: 100%;
+  margin-right: 10px;
+}
+
+.tbl1 {
+  padding: 10px;
+  vertical-align: top;
+}
+
+/* === Buttons === */
+button[mat-raised-button] {
+  min-width: 100px;
+  font-weight: bold;
+}
+
+button[mat-raised-button]:not(:last-child) {
+  margin-right: 10px;
+}
+
+/* === Success Message === */
+.success {
+  font-size: 18px;
+  color: green;
+  margin-top: 10px;
+}
+
+/* === Table Styling === */
+mat-table {
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+mat-header-cell, mat-cell {
+  padding: 12px;
+  font-size: 14px;
+}
+
+mat-header-cell {
+  font-weight: bold;
+  background-color: #e0e0e0;
+}
+
+/* === Paginator === */
+mat-paginator {
+  margin-top: 20px;
+}
+
+/* === Tooltips === */
+[matTooltip] {
+  cursor: pointer;
+}
+
+/* === Align Center for Submit Row === */
+.content-center {
+  text-align: center;
+}
+
+/* === Responsive Fix (Optional) === */
+@media (max-width: 768px) {
+  .tbl1 {
+    display: block;
+    width: 100%;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  mat-table {
+    font-size: 12px;
+  }
+
+  button[mat-raised-button] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
